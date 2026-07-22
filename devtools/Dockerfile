@@ -18,5 +18,7 @@ WORKDIR /home/$USER_NAME
 RUN \
     cd $HOME && \
     wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh && \
-    bash Miniforge3-$(uname)-$(uname -m).sh -b -c && \
+    bash Miniforge3-$(uname)-$(uname -m).sh -b -c
+
+RUN \
     conda install -y cmake make cython swig doxygen numpy setuptools
