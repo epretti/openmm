@@ -38,10 +38,11 @@ pipeline {
 
                 stage("Build/test CPU platforms") {
                     agent {
-                        docker {
-                            image "test-image:latest"
-                            label "docker"
-                            alwaysPull true
+                        dockerfile {
+                            filename "devtools/Dockerfile"
+//                            image "test-image:latest"
+//                            label "docker"
+//                            alwaysPull true
                         }
                     }
 
