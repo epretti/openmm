@@ -6,7 +6,7 @@ pipeline {
             parallel {
                 stage("Build and test CUDA platform") {
                     agent {
-                        docker {
+                        dockerfile {
                             filename "devtools/ci/jenkins/Dockerfile.gpu"
                             additionalBuildArgs '--build-arg GROUP_ID=$(id -g) --build-arg USER_ID=$(id -u) --build-arg USER_NAME=$(id -un)'
                             label "cuda && docker"
