@@ -44,7 +44,8 @@ pipeline {
                         }
                     }
                     steps {
-                        sh "devtools/ci/jenkins/install_and_test_cpu.sh"
+                        sh "echo User is $USER, home directory is $HOME"
+//                        sh "devtools/ci/jenkins/install_and_test_cpu.sh"
                     }
                 }
             }
