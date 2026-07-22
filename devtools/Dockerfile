@@ -12,7 +12,7 @@ RUN \
 
 USER $USER_NAME
 
-RUN \
-    wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh && \
-    bash Miniforge3-$(uname)-$(uname -m).sh -b -c && \
-    conda install -q -y cmake make cython swig doxygen numpy setuptools
+RUN echo $USER, $HOME, $(pwd)
+RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh
+RUN bash Miniforge3-$(uname)-$(uname -m).sh -b -c
+RUN conda install -y cmake make cython swig doxygen numpy setuptools
