@@ -4,21 +4,20 @@ pipeline {
     stages {
         stage("Build and test") {
             parallel {
-//                stage("Build and test CUDA platform") {
-//                    agent {
-//                        docker {
-//                            image "test-image:latest"
-//                            label "cuda && docker"
-//                            args '--gpus all'
-//                            alwaysPull true
-//                        }
-//                    }
-//                    steps {
-//                        sh "git clean -fxd && git checkout ."
-//                        sh "devtools/ci/jenkins/install.sh"
-//                        sh "devtools/ci/jenkins/test.sh -R 'TestCuda' --parallel 2"
-//                    }
-//                }
+                stage("Build and test CUDA platform") {
+                    agent {
+                        docker {
+                            filename "devtools/ci/jenkins/Dockerfile.gpu"
+                            additionalBuildArgs '--build-arg GROUP_ID=$(id -g) --build-arg USER_ID=$(id -u) --build-arg USER_NAME=$(id -un)'
+                            label "cuda && docker"
+                            args "--gpus all"
+                        }
+                    }
+                    steps {
+                        sh "devtools/ci/jenkins/install.sh"
+                        sh "devtools/ci/jenkins/test.sh -R 'TestCuda' --parallel 2"
+                    }
+                }
 //
 //                stage("Build and test OpenCL platform") {
 //                    agent {
@@ -39,7 +38,7 @@ pipeline {
                 stage("Build/test CPU platforms") {
                     agent {
                         dockerfile {
-                            filename "devtools/ci/jenkins/Dockerfile"
+                            filename "devtools/ci/jenkins/Dockerfile.cpu"
                             additionalBuildArgs '--build-arg GROUP_ID=$(id -g) --build-arg USER_ID=$(id -u) --build-arg USER_NAME=$(id -un)'
                             label "docker"
                         }

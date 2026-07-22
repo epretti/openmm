@@ -1,0 +1,29 @@
+FROM ubuntu:26.04
+
+ARG GROUP_ID
+ARG USER_ID
+ARG USER_NAME
+
+RUN \
+    mkdir /home/$USER_NAME && \
+    groupadd -g $GROUP_ID $USER_NAME && \
+    useradd -u $USER_ID -g $USER_NAME -d /home/$USER_NAME $USER_NAME && \
+    chown $USER_NAME:$USER_NAME /home/$USER_NAME && \
+    apt-get update -y && \
+    apt-get install -y git wget build-essential && \
+    wget https://developer.download.nvidia.com/compute/cuda/repos/<distro>/<arch>/cuda-keyring_1.1-1_all.deb && \
+    dpkg -i cuda-keyring_1.1-1_all.deb && \
+    apt-get update -y && \
+    apt-get install -y cuda-toolkit
+
+USER $USER_NAME
+WORKDIR /home/$USER_NAME
+
+RUN \
+    wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh && \
+    bash Miniforge3-$(uname)-$(uname -m).sh -b
+
+ENV PATH=/home/$USER_NAME/miniforge3/bin:$PATH
+
+RUN \
+    conda install -q -y cmake make cython swig doxygen numpy setuptools pytest pytest-xdist
