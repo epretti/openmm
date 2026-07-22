@@ -38,12 +38,14 @@ pipeline {
 
                 stage("Build/test CPU platforms") {
                     environment {
-                        DOCKER_ARGS = "--build-arg GROUP_ID=${sh(script: 'id -g', returnStdout: true).trim()} --build-arg USER_ID=${sh(script: 'id -u', returnStdout: true).trim()} --build-arg USER_NAME=${sh(script: 'id -un', returnStdout: true).trim()}"
+                        GROUP_ID = "${sh(script: 'id -g', returnStdout: true).trim()}"
+                        USER_ID = "${sh(script: 'id -u', returnStdout: true).trim()}"
+                        USER_NAME = "${sh(script: 'id -un', returnStdout: true).trim()}"
                     }
                     agent {
                         dockerfile {
                             filename "devtools/Dockerfile"
-                            additionalBuildArgs "${env.DOCKER_ARGS}"
+                            additionalBuildArgs '--build-arg GROUP_ID=$GROUP_ID --build-arg USER_ID=$USER_ID --build-arg USER_NAME=$USER_NAME'
                             label "docker"
                         }
                     }
