@@ -43,7 +43,7 @@ pipeline {
                     agent {
                         dockerfile {
                             filename "devtools/Dockerfile"
-                            additionalBuildArgs "$DOCKER_ARGS"
+                            //additionalBuildArgs "$DOCKER_ARGS"
                             label "docker"
                         }
                     }
