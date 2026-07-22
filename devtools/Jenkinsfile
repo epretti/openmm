@@ -39,7 +39,7 @@ pipeline {
                 stage("Build/test CPU platforms") {
                     agent {
                         dockerfile {
-                            filename "devtools/Dockerfile"
+                            filename "devtools/ci/jenkins/Dockerfile"
                             additionalBuildArgs '--build-arg GROUP_ID=$(id -g) --build-arg USER_ID=$(id -u) --build-arg USER_NAME=$(id -un)'
                             label "docker"
                         }

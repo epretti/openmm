@@ -22,4 +22,4 @@ RUN \
 ENV PATH=/home/$USER_NAME/miniforge3/bin:$PATH
 
 RUN \
-    conda install -q -y cmake make cython swig doxygen numpy setuptools pytest
+    conda install -q -y cmake make cython swig doxygen numpy setuptools pytest pytest-xdist
