@@ -1,7 +1,4 @@
 pipeline {
-    environment {
-        DOCKER_ARGS = "--build-arg GROUP_ID=${sh(script: 'id -g', returnStdout: true).trim()} --build-arg USER_ID=${sh(script: 'id -u', returnStdout: true).trim()} --build-arg USER_NAME=${sh(script: 'id -un', returnStdout: true).trim()}"
-    }
     agent none
 
     stages {
@@ -40,6 +37,9 @@ pipeline {
 //                }
 
                 stage("Build/test CPU platforms") {
+                    environment {
+                        DOCKER_ARGS = "--build-arg GROUP_ID=${sh(script: 'id -g', returnStdout: true).trim()} --build-arg USER_ID=${sh(script: 'id -u', returnStdout: true).trim()} --build-arg USER_NAME=${sh(script: 'id -un', returnStdout: true).trim()}"
+                    }
                     agent {
                         dockerfile {
                             filename "devtools/Dockerfile"
