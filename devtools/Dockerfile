@@ -1,11 +1,6 @@
-FROM ubuntu:26.04
-
-ENV CONDA_DIR=/opt/conda
-ENV PATH=/opt/conda/bin:${PATH}
+FROM condaforge/miniforge3:latest
 
 RUN \
     apt-get update -y && \
-    apt-get install -y git wget build-essential && \
-    wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh && \
-    bash Miniforge3-$(uname)-$(uname -m).sh -b -p ${CONDA_DIR} && \
-    conda install cmake make cython swig doxygen numpy setuptools
+    apt-get install -y build-essential && \
+    conda install -y cmake make cython swig doxygen numpy setuptools
