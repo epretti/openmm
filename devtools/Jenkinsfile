@@ -47,7 +47,7 @@ pipeline {
                     }
 
                     steps {
-                        sh "git clean -fxd && git checkout ."
+//                        sh "git clean -fxd && git checkout ."
                         sh "devtools/ci/jenkins/install_and_test_cpu.sh"
                     }
                 }
