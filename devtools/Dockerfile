@@ -1,4 +1,4 @@
 FROM ubuntu:24.04
 RUN \
     apt-get update -y && \
-    apt-get install git
+    apt-get install -y git
