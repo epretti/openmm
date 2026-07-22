@@ -5,7 +5,7 @@ ENV PATH=/opt/conda/bin:${PATH}
 
 RUN \
     apt-get update -y && \
-    apt-get install -y git wget && \
+    apt-get install -y git wget build-essential && \
     wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh && \
     bash Miniforge3-$(uname)-$(uname -m).sh -b -p ${CONDA_DIR} && \
     conda install cmake make cython swig doxygen numpy setuptools
