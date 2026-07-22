@@ -7,10 +7,13 @@ ARG USER_NAME
 RUN \
     apt-get update -y && \
     apt-get install -y git wget build-essential && \
+    mkdir /home/$USER_NAME && \
     groupadd -g $GROUP_ID $USER_NAME && \
-    useradd -u $USER_ID -g $USER_NAME $USER_NAME
+    useradd -u $USER_ID -g $USER_NAME -d /home/$USER_NAME $USER_NAME && \
+    chown $USER_NAME:$USER_NAME /home/$USER_NAME
 
 USER $USER_NAME
+WORKDIR /home/$USER_NAME
 
 RUN \
     cd $HOME && \
