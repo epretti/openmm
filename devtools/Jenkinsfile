@@ -38,16 +38,12 @@ pipeline {
 
                 stage("Build/test CPU platforms") {
                     agent {
-                        dockerfile {
+                        docker {
                             filename "devtools/Dockerfile"
-//                            image "test-image:latest"
-//                            label "docker"
-//                            alwaysPull true
+                            label "docker"
                         }
                     }
-
                     steps {
-//                        sh "git clean -fxd && git checkout ."
                         sh "devtools/ci/jenkins/install_and_test_cpu.sh"
                     }
                 }

@@ -1,4 +1,7 @@
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 RUN \
     apt-get update -y && \
-    apt-get install -y git
+    apt-get install -y git && \
+    wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh && \
+    bash Miniforge3-$(uname)-$(uname -m).sh -b && \
+    conda install cmake make cython swig doxygen numpy setuptools
