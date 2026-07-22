@@ -38,7 +38,7 @@ pipeline {
 
                 stage("Build/test CPU platforms") {
                     agent {
-                        docker {
+                        dockerfile {
                             filename "devtools/Dockerfile"
                             label "docker"
                         }
