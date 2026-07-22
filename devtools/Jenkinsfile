@@ -1,4 +1,7 @@
 pipeline {
+    environment {
+        DOCKER_ARGS = "--build-arg GROUP_ID=${sh(script: 'id -g', returnStdout: true).trim()} --build-arg USER_ID=${sh(script: 'id -u', returnStdout: true).trim()} --build-arg USER_NAME=${sh(script: 'id -un', returnStdout: true).trim()}"
+    }
     agent none
 
     stages {
@@ -40,11 +43,11 @@ pipeline {
                     agent {
                         dockerfile {
                             filename "devtools/Dockerfile"
+                            additionalBuildArgs "$DOCKER_ARGS"
                             label "docker"
                         }
                     }
                     steps {
-                        sh "devtools/ci/jenkins/conda_setup.sh"
                         sh "devtools/ci/jenkins/install_and_test_cpu.sh"
                     }
                 }
