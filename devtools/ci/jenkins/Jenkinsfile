@@ -1,59 +1,67 @@
-//def buildArgs = '--build-arg GROUP_ID=$(id -g) --build-arg USER_ID=$(id -u) --build-arg USER_NAME=$(id -un)'
+def buildArgs = '--build-arg GROUP_ID=$(id -g) --build-arg USER_ID=$(id -u) --build-arg USER_NAME=$(id -un)'
 
 pipeline {
     agent none
 
     stages {
         stage("Wait for maintainer approval") {
+            // when {
+            //     expression {
+            //         env.CHANGE_FORK != null
+            //     }
+            // }
             input {
                 message "PR #${env.CHANGE_ID} comes from a fork and requires maintainer approval"
+                ok "Approve this run"
+            }
+            steps {
             }
         }
-        //stage("Build and test") {
-        //    parallel {
-        //        stage("Build and test CUDA platform") {
-        //            agent {
-        //                dockerfile {
-        //                    filename "devtools/ci/jenkins/Dockerfile"
-        //                    additionalBuildArgs buildArgs + ' --build-arg INSTALL_CUDA=1'
-        //                    label "cuda && docker"
-        //                    args '--gpus all'
-        //                }
-        //            }
-        //            steps {
-        //                sh "devtools/ci/jenkins/install.sh"
-        //                sh "devtools/ci/jenkins/test.sh -R 'TestCuda' --parallel 2"
-        //            }
-        //        }
+        stage("Build and test") {
+            parallel {
+                stage("Build and test CUDA platform") {
+                    agent {
+                        dockerfile {
+                            filename "devtools/ci/jenkins/Dockerfile"
+                            additionalBuildArgs buildArgs + ' --build-arg INSTALL_CUDA=1'
+                            label "cuda && docker"
+                            args '--gpus all'
+                        }
+                    }
+                    steps {
+                        sh "devtools/ci/jenkins/install.sh"
+                        sh "devtools/ci/jenkins/test.sh -R 'TestCuda' --parallel 2"
+                    }
+                }
 
-        //        stage("Build and test OpenCL platform") {
-        //            agent {
-        //                dockerfile {
-        //                    filename "devtools/ci/jenkins/Dockerfile"
-        //                    additionalBuildArgs buildArgs + ' --build-arg INSTALL_CUDA=1'
-        //                    label "cuda && docker"
-        //                    args '--gpus all'
-        //                }
-        //            }
-        //            steps {
-        //                sh "devtools/ci/jenkins/install.sh"
-        //                sh "devtools/ci/jenkins/test.sh -R 'TestOpenCL' --parallel 2"
-        //            }
-        //        }
+                stage("Build and test OpenCL platform") {
+                    agent {
+                        dockerfile {
+                            filename "devtools/ci/jenkins/Dockerfile"
+                            additionalBuildArgs buildArgs + ' --build-arg INSTALL_CUDA=1'
+                            label "cuda && docker"
+                            args '--gpus all'
+                        }
+                    }
+                    steps {
+                        sh "devtools/ci/jenkins/install.sh"
+                        sh "devtools/ci/jenkins/test.sh -R 'TestOpenCL' --parallel 2"
+                    }
+                }
 
-        //        stage("Build/test CPU platforms") {
-        //            agent {
-        //                dockerfile {
-        //                    filename "devtools/ci/jenkins/Dockerfile"
-        //                    additionalBuildArgs buildArgs
-        //                    label "docker"
-        //                }
-        //            }
-        //            steps {
-        //                sh "devtools/ci/jenkins/install_and_test_cpu.sh"
-        //            }
-        //        }
-        //    }
-        //}
+                stage("Build/test CPU platforms") {
+                    agent {
+                        dockerfile {
+                            filename "devtools/ci/jenkins/Dockerfile"
+                            additionalBuildArgs buildArgs
+                            label "docker"
+                        }
+                    }
+                    steps {
+                        sh "devtools/ci/jenkins/install_and_test_cpu.sh"
+                    }
+                }
+            }
+        }
     }
 }
