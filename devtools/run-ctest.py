@@ -83,15 +83,13 @@ def execute_tests(options, raw_options):
 
     if os.path.isdir('Testing'):
         shutil.rmtree('Testing')
-    args = ['ctest',
+    return call(['ctest',
                  '--output-on-failure',
                  '--parallel', str(options.parallel),
                  '-T', 'Test',
                  '--timeout', options.timeout,
-                 '--stop-time', stop_time.strftime('%H:%M:%S')] + raw_options + \
-                 (['--schedule-random'] if options.in_order else [])
-    print("execute_tests:", args)
-    return call(args)
+                 '--stop-time', stop_time.strftime('%H:%M:%S')] + raw_options +
+                 (['--schedule-random'] if options.in_order else []))
 
 
 def execute_failed_tests(options, raw_options):
@@ -113,15 +111,13 @@ def execute_failed_tests(options, raw_options):
 
     start_time = datetime.fromtimestamp(options.start_time)
     stop_time = start_time + timedelta(minutes=options.job_duration)
-    args = ['ctest'] + raw_options + [
+    return call(['ctest'] + raw_options + [
                  '--output-on-failure',
                  '--parallel', str(options.parallel),
                  '-R', '|'.join(failed_tests),
                  '--timeout', options.timeout,
-                 '--stop-time', stop_time.strftime('%H:%M:%S')] + \
-                 (['--schedule-random'] if options.in_order else [])
-    print("execute_failed_tests:", args)
-    return call(args)
+                 '--stop-time', stop_time.strftime('%H:%M:%S')] +
+                 (['--schedule-random'] if options.in_order else []))
 
 
 if __name__ == '__main__':
