@@ -15,6 +15,7 @@ pipeline {
                 ok "Approve this run"
             }
             steps {
+                echo ""
             }
         }
         stage("Build and test") {
