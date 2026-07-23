@@ -83,13 +83,15 @@ def execute_tests(options, raw_options):
 
     if os.path.isdir('Testing'):
         shutil.rmtree('Testing')
-    return call(['ctest',
+    args = ['ctest',
                  '--output-on-failure',
                  '--parallel', str(options.parallel),
                  '-T', 'Test',
                  '--timeout', options.timeout,
                  '--stop-time', stop_time.strftime('%H:%M:%S')] + raw_options +
-                 (['--schedule-random'] if options.in_order else []))
+                 (['--schedule-random'] if options.in_order else [])
+    print("execute_tests:", args)
+    return call(args)
 
 
 def execute_failed_tests(options, raw_options):
@@ -111,13 +113,15 @@ def execute_failed_tests(options, raw_options):
 
     start_time = datetime.fromtimestamp(options.start_time)
     stop_time = start_time + timedelta(minutes=options.job_duration)
-    return call(['ctest'] + raw_options + [
+    args = ['ctest'] + raw_options + [
                  '--output-on-failure',
                  '--parallel', str(options.parallel),
                  '-R', '|'.join(failed_tests),
                  '--timeout', options.timeout,
                  '--stop-time', stop_time.strftime('%H:%M:%S')] +
-                 (['--schedule-random'] if options.in_order else []))
+                 (['--schedule-random'] if options.in_order else [])
+    print("execute_failed_tests:", args)
+    return call(args)
 
 
 if __name__ == '__main__':
