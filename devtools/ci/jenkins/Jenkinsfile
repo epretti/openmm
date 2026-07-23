@@ -12,7 +12,6 @@ pipeline {
             // }
             input {
                 message "PR #${env.CHANGE_ID} comes from a fork and requires maintainer approval"
-                ok "Approve this run"
             }
             steps {
                 echo ""
