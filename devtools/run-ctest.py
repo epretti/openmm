@@ -105,6 +105,10 @@ def execute_failed_tests(options, raw_options):
 
     failed_tests = [t.find('Name').text
                     for t in tests if failed_without_timeout(t)]
+
+    if not failed_tests:
+        return
+
     print('*'*30)
     print('Rerunning failing tests...')
     print('*'*30)
