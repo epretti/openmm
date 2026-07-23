@@ -10,11 +10,8 @@ pipeline {
                     env.CHANGE_FORK
                 }
             }
-            input {
-                message "PR #${env.CHANGE_ID} comes from a fork and requires maintainer approval"
-            }
             steps {
-                echo ""
+                input message: "PR #${env.CHANGE_ID} comes from a fork and requires maintainer approval"
             }
         }
         stage("Build and test") {
