@@ -14,7 +14,8 @@ RUN \
     wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2604/sbsa/cuda-keyring_1.1-1_all.deb && \
     dpkg -i cuda-keyring_1.1-1_all.deb && \
     apt-get update -y && \
-    apt-get install -y cuda-toolkit
+    apt-get install -y cuda-toolkit && \
+    apt-get install -y cuda-compat-13-2
 
 USER $USER_NAME
 WORKDIR /home/$USER_NAME
