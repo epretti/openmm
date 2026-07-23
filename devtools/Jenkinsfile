@@ -15,7 +15,7 @@ pipeline {
                     }
                     steps {
                         sh "devtools/ci/jenkins/install.sh"
-                        sh "devtools/ci/jenkins/test.sh -R 'TestCuda' --parallel 4"
+                        sh "devtools/ci/jenkins/test.sh -R 'TestCuda' --parallel 2"
                     }
                 }
 
@@ -30,7 +30,7 @@ pipeline {
                     }
                     steps {
                         sh "devtools/ci/jenkins/install.sh"
-                        sh "devtools/ci/jenkins/test.sh -R 'TestOpenCL' --parallel 4"
+                        sh "devtools/ci/jenkins/test.sh -R 'TestOpenCL' --parallel 2"
                     }
                 }
 
