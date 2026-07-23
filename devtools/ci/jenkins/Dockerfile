@@ -1,5 +1,7 @@
 FROM ubuntu:24.04
 
+ARG INSTALL_CUDA=0
+
 ARG GROUP_ID
 ARG USER_ID
 ARG USER_NAME
@@ -10,12 +12,16 @@ RUN \
     useradd -u $USER_ID -g $USER_NAME -d /home/$USER_NAME $USER_NAME && \
     chown $USER_NAME:$USER_NAME /home/$USER_NAME && \
     apt-get update -y && \
-    apt-get install -y git wget build-essential && \
-    wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/cuda-keyring_1.1-1_all.deb && \
-    dpkg -i cuda-keyring_1.1-1_all.deb && \
-    apt-get update -y && \
-    apt-get install -y cuda-toolkit-13-0 && \
-    apt-get install -y nvidia-opencl-dev
+    apt-get install -y git wget build-essential
+
+RUN \
+    if [ $INSTALL_CUDA -ne 0 ]; then \
+        wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/cuda-keyring_1.1-1_all.deb && \
+        dpkg -i cuda-keyring_1.1-1_all.deb && \
+        apt-get update -y && \
+        apt-get install -y cuda-toolkit-13-0 && \
+        apt-get install -y nvidia-opencl-dev; \
+    fi
 
 USER $USER_NAME
 WORKDIR /home/$USER_NAME

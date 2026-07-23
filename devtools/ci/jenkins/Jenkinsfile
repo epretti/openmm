@@ -1,3 +1,5 @@
+def buildArgs = '--build-arg GROUP_ID=$(id -g) --build-arg USER_ID=$(id -u) --build-arg USER_NAME=$(id -un)'
+
 pipeline {
     agent none
 
@@ -7,10 +9,10 @@ pipeline {
                 stage("Build and test CUDA platform") {
                     agent {
                         dockerfile {
-                            filename "devtools/ci/jenkins/Dockerfile.gpu"
-                            additionalBuildArgs '--build-arg GROUP_ID=$(id -g) --build-arg USER_ID=$(id -u) --build-arg USER_NAME=$(id -un)'
+                            filename "devtools/ci/jenkins/Dockerfile"
+                            additionalBuildArgs buildArgs + ' --build-arg INSTALL_CUDA=1'
                             label "cuda && docker"
-                            args "--gpus all"
+                            args '--gpus all'
                         }
                     }
                     steps {
@@ -22,10 +24,10 @@ pipeline {
                 stage("Build and test OpenCL platform") {
                     agent {
                         dockerfile {
-                            filename "devtools/ci/jenkins/Dockerfile.gpu"
-                            additionalBuildArgs '--build-arg GROUP_ID=$(id -g) --build-arg USER_ID=$(id -u) --build-arg USER_NAME=$(id -un)'
+                            filename "devtools/ci/jenkins/Dockerfile"
+                            additionalBuildArgs buildArgs + ' --build-arg INSTALL_CUDA=1'
                             label "cuda && docker"
-                            args "--gpus all"
+                            args '--gpus all'
                         }
                     }
                     steps {
@@ -37,8 +39,8 @@ pipeline {
                 stage("Build/test CPU platforms") {
                     agent {
                         dockerfile {
-                            filename "devtools/ci/jenkins/Dockerfile.cpu"
-                            additionalBuildArgs '--build-arg GROUP_ID=$(id -g) --build-arg USER_ID=$(id -u) --build-arg USER_NAME=$(id -un)'
+                            filename "devtools/ci/jenkins/Dockerfile"
+                            additionalBuildArgs buildArgs
                             label "docker"
                         }
                     }
