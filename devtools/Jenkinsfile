@@ -15,25 +15,24 @@ pipeline {
                     }
                     steps {
                         sh "devtools/ci/jenkins/install.sh"
-                        sh "devtools/ci/jenkins/test.sh -R 'TestCuda' --parallel 2"
+                        sh "devtools/ci/jenkins/test.sh -R 'TestCuda' --parallel 4"
                     }
                 }
-//
-//                stage("Build and test OpenCL platform") {
-//                    agent {
-//                        docker {
-//                            image "test-image:latest"
-//                            label "cuda && docker"
-//                            args '--gpus all'
-//                            alwaysPull true
-//                        }
-//                    }
-//                    steps {
-//                        sh "git clean -fxd && git checkout ."
-//                        sh "devtools/ci/jenkins/install.sh"
-//                        sh "devtools/ci/jenkins/test.sh -R 'TestOpenCL' --parallel 2"
-//                    }
-//                }
+
+                stage("Build and test OpenCL platform") {
+                    agent {
+                        dockerfile {
+                            filename "devtools/ci/jenkins/Dockerfile.gpu"
+                            additionalBuildArgs '--build-arg GROUP_ID=$(id -g) --build-arg USER_ID=$(id -u) --build-arg USER_NAME=$(id -un)'
+                            label "cuda && docker"
+                            args "--gpus all"
+                        }
+                    }
+                    steps {
+                        sh "devtools/ci/jenkins/install.sh"
+                        sh "devtools/ci/jenkins/test.sh -R 'TestOpenCL' --parallel 4"
+                    }
+                }
 
                 stage("Build/test CPU platforms") {
                     agent {
