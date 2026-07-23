@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 ARG GROUP_ID
 ARG USER_ID
@@ -11,7 +11,7 @@ RUN \
     chown $USER_NAME:$USER_NAME /home/$USER_NAME && \
     apt-get update -y && \
     apt-get install -y git wget build-essential && \
-    wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/$(dpkg --print-architecture)/cuda-keyring_1.1-1_all.deb && \
+    wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2604/sbsa/cuda-keyring_1.1-1_all.deb && \
     dpkg -i cuda-keyring_1.1-1_all.deb && \
     apt-get update -y && \
     apt-get install -y cuda-toolkit
