@@ -88,7 +88,7 @@ def execute_tests(options, raw_options):
                  '--parallel', str(options.parallel),
                  '-T', 'Test',
                  '--timeout', options.timeout,
-                 '--stop-time', stop_time.strftime('%H:%M:%S')] + raw_options +
+                 '--stop-time', stop_time.strftime('%H:%M:%S')] + raw_options + \
                  (['--schedule-random'] if options.in_order else [])
     print("execute_tests:", args)
     return call(args)
@@ -118,7 +118,7 @@ def execute_failed_tests(options, raw_options):
                  '--parallel', str(options.parallel),
                  '-R', '|'.join(failed_tests),
                  '--timeout', options.timeout,
-                 '--stop-time', stop_time.strftime('%H:%M:%S')] +
+                 '--stop-time', stop_time.strftime('%H:%M:%S')] + \
                  (['--schedule-random'] if options.in_order else [])
     print("execute_failed_tests:", args)
     return call(args)
