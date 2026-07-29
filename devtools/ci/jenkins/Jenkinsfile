@@ -22,7 +22,7 @@ pipeline {
                             filename "devtools/ci/jenkins/Dockerfile"
                             additionalBuildArgs buildArgs + ' --build-arg INSTALL_CUDA=1'
                             label "cuda && docker"
-                            args "--gpus all"
+                            args '--gpus all'
                         }
                     }
                     steps {
@@ -37,7 +37,7 @@ pipeline {
                             filename "devtools/ci/jenkins/Dockerfile"
                             additionalBuildArgs buildArgs + ' --build-arg INSTALL_CUDA=1'
                             label "cuda && docker"
-                            args "--gpus all"
+                            args '--gpus all'
                         }
                     }
                     steps {
